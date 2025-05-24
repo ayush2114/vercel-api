@@ -24,7 +24,7 @@ app.add_middleware(
 )
 
 with open("q-vercel-python.json", "r") as file:
-    marks = json.load(file)
+    students = json.load(file)
 
 @app.get("/")
 def read_root():
@@ -32,4 +32,8 @@ def read_root():
 
 @app.get("/marks")
 def get_marks(names: Optional[List[str]] = None):
-    return marks
+    marks = []
+    for student in students:
+        if student["name"] in names:
+            marks.append(student["marks"])
+    return {"marks": marks}
