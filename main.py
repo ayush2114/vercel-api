@@ -36,7 +36,9 @@ def get_marks(names: Optional[List[str]] = Query(None, alias="name")):
     if names is None:
         # If no names provided, return all marks
         marks = [student["marks"] for student in students]
-    for student in students:
-        if student["name"] in names:
-            marks.append(student["marks"])
+    else:
+        # Create a dictionary for quick lookup
+        student_dict = {student["name"]: student["marks"] for student in students}
+        # Get marks in the same order as requested names
+        marks = [student_dict[name] for name in names if name in student_dict]
     return {"marks": marks}
