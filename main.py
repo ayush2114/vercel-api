@@ -7,7 +7,7 @@
 # ///
 
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 import json
@@ -31,8 +31,11 @@ def read_root():
     return {"message": "Hello, World! from Ayush"}
 
 @app.get("/marks")
-def get_marks(names: Optional[List[str]] = None):
+def get_marks(names: Optional[List[str]] = Query(None, alias="name")):
     marks = []
+    if names is None:
+        # If no names provided, return all marks
+        marks = [student["marks"] for student in students]
     for student in students:
         if student["name"] in names:
             marks.append(student["marks"])
