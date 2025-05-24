@@ -29,3 +29,7 @@ with open("q-vercel-python.json", "r") as file:
 @app.get("/")
 def read_root():
     return {"message": "Hello, World! from Ayush"}
+
+@app.get("/marks")
+def get_marks(names: Optional[List[str]] = None):
+    return marks
